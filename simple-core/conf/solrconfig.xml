@@ -25,25 +25,31 @@
   <luceneMatchVersion>6.0.1</luceneMatchVersion>
   <dataDir>${solr.data.dir:}</dataDir>
 
-
+<!-- 
+    Here are two Request handlers defined for normal querying. If you want to know more about how to configure these see: https://cwiki.apache.org/confluence/display/solr/RequestHandlers+and+SearchComponents+in+SolrConfig
+-->
   <requestHandler name="/select" class="solr.SearchHandler" />
   <requestHandler name="/query" class="solr.SearchHandler" />
 
+
+<!--    
+    Below are request handlers for analysis. These aren't neccessary but useful when getting started.
+    Read more about analysis here: https://cwiki.apache.org/confluence/display/solr/Running+Your+Analyzer?focusedCommentId=64554226#comment-64554226
+-->    
+    
+<!-- Gives you a request handler where you can do field analysis. Allows you to analyse index and query time -->
   <requestHandler name="/analysis/field" 
                   startup="lazy"
                   class="solr.FieldAnalysisRequestHandler" />
-
+<!-- Gives you a request handler where you can do document analysis. Also supports query analysis -->
   <requestHandler name="/analysis/document" 
                   class="solr.DocumentAnalysisRequestHandler" 
                   startup="lazy" />
 
-  <!-- Echo the request contents back to the client -->
-  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
-    <lst name="defaults">
-     <str name="echoParams">explicit</str> 
-     <str name="echoHandler">true</str>
-    </lst>
-  </requestHandler>
+<!-- 
+    This handler simply outputs the contents of the SolrQueryRequest using the specified writer type wt. This is a useful tool to help understand what streams are available to the RequestHandlers. 
+-->
+  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" />
 
 
 </config>
